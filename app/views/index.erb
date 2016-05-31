@@ -1,1 +1,36 @@
 <h1>Home Page</h1>
+
+
+<div class="contact-list"> 
+  <% @contacts.each do | contact | %>
+    <div class="contact">
+      <ul>
+        <li><strong><%= contact.full_name %></strong></li>
+      </ul>
+    </div>
+  <% end %>
+</div>
+
+
+<div class="show-contact">
+  <div class="contact-info">
+
+  </div>
+</div>
+
+<div class="add-new-contact">
+  <form method="post" action="/contact-add">
+    <h5>Add a new contact</h5>
+    <label>First Name:</label>
+    <input type="text" name="first_name" placeholder="First Name"><br>
+    <label>Last Name:</label>
+    <input type="text" name="last_name" placeholder="Last Name"><br>
+    <label>Email:</label>
+    <input type="text" name="email" placeholder="Email"><br>
+    <label>Phone Number:</label>
+    <input type="text" name="phone" placeholder="(000) 000-0000"><br>
+    <submit>
+  </form>
+</div>
+
+

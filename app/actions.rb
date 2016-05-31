@@ -1,10 +1,14 @@
 # Homepage (Root path)
-get '/' do
-  erb :index
+helpers do 
+  def full_name
+    contact = Contact.find(params[:contact_id])
+    @full_name = [contact.first_name, contact.last_name].join(" ")
+  end
 end
 
-get '/contacts' do 
-  contacts = Contact.all.order(first_name: :asc)
+get '/' do 
+  @contacts = Contact.all.order(first_name: :asc)
+  erb :index
 end
 
 delete '/contact-delete/:id' do
@@ -18,23 +22,20 @@ post '/contact-add' do
     last_name: params[:last_name],
     email: params[:email],
     phone: params[:phone]
-  )
-  @new_contact.save
-  #if @new_plant validates, save
-  if @new_contact.save
+  )  
+    if @new_contact.save!
       json  :contact => { new_contact:  @new_contact }
-  else
-    raise "A runtime error occured"
-  end
+    end
 end
 
 post '/contact-update' do
   @contact = Contact.find_by(id: params[:contact_id])
-  @contact.update(
+  if @contact.update!(
     first_name: params[:first_name],
     last_name: params[:last_name],
     email: params[:email],
     phone: params[:phone]
     )
-  @contact.save
+    json  :contact => { contact:  @contact }
+  end
 end
